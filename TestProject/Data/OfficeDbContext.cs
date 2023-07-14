@@ -13,7 +13,7 @@ namespace TestProject.Data
         }
 
         public DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
+        public DbSet<Department> Department { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Skill> Skills { get; set; }
 
@@ -44,7 +44,8 @@ namespace TestProject.Data
                 "EmployeeSkill",
                 x => x.HasOne<Skill>().WithMany().HasForeignKey("SkillId"),
                 x => x.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId")
-            );
+            )
+            .ToTable("EmployeeSkill");
 
             base.OnModelCreating(modelBuilder);
         }
