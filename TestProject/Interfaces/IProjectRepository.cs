@@ -15,8 +15,8 @@ namespace TestProject.Interfaces
         bool Save();
         bool IsExist(int id);
 
-        ICollection<Employee> GetEmployeesByProjectId(int projectId);
-        ICollection<Project> GetProjectsByEmployeeId(int employeeId);
+        IEnumerable<Employee> GetEmployeesByProjectId(int projectId);
+        IEnumerable<Project> GetProjectsByEmployeeId(int employeeId);
         bool AddEmployeeToProject(int employeeId, int projectId);
         bool RemoveEmployeeFromProject(int employeeId, int projectId);
     }
