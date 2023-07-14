@@ -13,7 +13,7 @@ namespace TestProject.Data
         }
 
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Skill> Skills { get; set; }
 
@@ -21,7 +21,7 @@ namespace TestProject.Data
         {
             // Configure one-to-many relationship between Employee and Department
             modelBuilder.Entity<Employee>()
-                .HasOne(e => e.Department)
+                .HasOne<Department>(e => e.Department)
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DepartmentId);
 
