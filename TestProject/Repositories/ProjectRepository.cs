@@ -66,18 +66,23 @@ namespace TestProject.Repositories
             return Save();
         }
 
-        public ICollection<Project> GetProjectsByEmployeeId(int employeeId)
+        public IEnumerable<Project> GetProjectsByEmployeeId(int employeeId)
         {
-            return _dataContext.Set<Employee>()
+            var employee = _dataContext.Employees
                 .Include(e => e.Projects)
-                .FirstOrDefault(e => e.EmployeeId == employeeId)?.Projects;
+                .FirstOrDefault(e => e.EmployeeId == employeeId);
+
+            if (employee == null)
+                return null; // or return an empty collection
+
+            return employee.Projects;
         }
 
-        public ICollection<Employee> GetEmployeesByProjectId(int projectId)
+        public IEnumerable<Employee> GetEmployeesByProjectId(int projectId)
         {
-            var project = _dataContext.Set<Project>()
-            .Include(p => p.Employees)
-            .FirstOrDefault(p => p.ProjectId == projectId);
+            var project = _dataContext.Projects
+                .Include(p => p.Employees)
+                .FirstOrDefault(p => p.ProjectId == projectId);
 
             if (project == null)
                 return null; // or return an empty collection
