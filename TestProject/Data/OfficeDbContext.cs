@@ -27,7 +27,7 @@ namespace TestProject.Data
 
             // Configure many-to-many relationship between Employee and Project
             modelBuilder.Entity<Employee>()
-            .HasMany<Project>(e => e.Projects)
+            .HasMany<Project>(e => e.Projects)  
             .WithMany(p => p.Employees)
             .UsingEntity<Dictionary<string, object>>(
                 "EmployeeProject",

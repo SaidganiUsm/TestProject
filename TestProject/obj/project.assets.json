@@ -2292,11 +2292,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\TestProject\\TestProject\\TestProject.csproj",
+      "projectUniqueName": "E:\\Git\\TestProject\\TestProject\\TestProject.csproj",
       "projectName": "TestProject",
-      "projectPath": "E:\\TestProject\\TestProject\\TestProject.csproj",
+      "projectPath": "E:\\Git\\TestProject\\TestProject\\TestProject.csproj",
       "packagesPath": "C:\\Users\\Said\\.nuget\\packages\\",
-      "outputPath": "E:\\TestProject\\TestProject\\obj\\",
+      "outputPath": "E:\\Git\\TestProject\\TestProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Said\\AppData\\Roaming\\NuGet\\NuGet.Config",
