@@ -116,6 +116,9 @@ namespace TestProject.Controllers
 
 
         [HttpGet("employees/{employeeId}/projects")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public IActionResult GetProjectsByEmployeeId(int employeeId)
         {
             var projects = _ProjectRepository.GetProjectsByEmployeeId(employeeId);
@@ -126,6 +129,9 @@ namespace TestProject.Controllers
         }
 
         [HttpGet("{projectId}/employees")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public IActionResult GetEmployeesByProjectId(int projectId)
         {
             var employees = _ProjectRepository.GetEmployeesByProjectId(projectId);
@@ -136,6 +142,9 @@ namespace TestProject.Controllers
         }
 
         [HttpPost("employees/{employeeId}/projects/{projectId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public IActionResult AddEmployeeToProject(int employeeId, int projectId)
         {
             var success = _ProjectRepository.AddEmployeeToProject(employeeId, projectId);
@@ -146,6 +155,9 @@ namespace TestProject.Controllers
         }
 
         [HttpDelete("employees/{employeeId}/projects/{projectId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public IActionResult RemoveEmployeeFromProject(int employeeId, int projectId)
         {
             var success = _ProjectRepository.RemoveEmployeeFromProject(employeeId, projectId);

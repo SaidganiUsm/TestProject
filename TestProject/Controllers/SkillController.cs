@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestProject.Dto;
 using TestProject.Interfaces;
 using TestProject.Models;
+using TestProject.Repositories;
 
 namespace TestProject.Controllers
 {
@@ -10,11 +11,11 @@ namespace TestProject.Controllers
     [ApiController]
     public class SkillController : ControllerBase
     {
-        private readonly ISkillRepository _SkillRepo;
+        private readonly ISkillRepository _SkillRepository;
         private readonly IMapper _mapper;
         public SkillController(ISkillRepository SkillRepository, IMapper mapper)
         {
-            _SkillRepo = SkillRepository;
+            _SkillRepository = SkillRepository;
             _mapper = mapper;
         }
 
@@ -22,7 +23,7 @@ namespace TestProject.Controllers
         [ProducesResponseType(200, Type = typeof(ICollection<Skill>))]
         public IActionResult GetAll()
         {
-            var Skills = _mapper.Map<List<SkillDto>>(_SkillRepo.GetAll());
+            var Skills = _mapper.Map<List<SkillDto>>(_SkillRepository.GetAll());
             if (ModelState.IsValid)
             {
                 return Ok(Skills);
@@ -38,7 +39,7 @@ namespace TestProject.Controllers
             if (SkillCreate == null)
                 return BadRequest(ModelState);
 
-            var Skills = _SkillRepo.GetSkillTrimToUpper(SkillCreate);
+            var Skills = _SkillRepository.GetSkillTrimToUpper(SkillCreate);
 
             if (Skills != null)
             {
@@ -51,7 +52,7 @@ namespace TestProject.Controllers
             var SkillMap = _mapper.Map<Skill>(SkillCreate);
 
 
-            if (!_SkillRepo.CreateSkill(SkillMap))
+            if (!_SkillRepository.CreateSkill(SkillMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -73,7 +74,7 @@ namespace TestProject.Controllers
             if (SkillId != updateSkill.SkillId)
                 return BadRequest(ModelState);
 
-            if (!_SkillRepo.IsExist(SkillId))
+            if (!_SkillRepository.IsExist(SkillId))
                 return NotFound();
 
             if (!ModelState.IsValid)
@@ -81,7 +82,7 @@ namespace TestProject.Controllers
 
             var SkillMap = _mapper.Map<Skill>(updateSkill);
 
-            if (!_SkillRepo.UpdateSkill(SkillMap))
+            if (!_SkillRepository.UpdateSkill(SkillMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating owner");
                 return StatusCode(500, ModelState);
@@ -96,21 +97,73 @@ namespace TestProject.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteSkill(int SkillId)
         {
-            if (!_SkillRepo.IsExist(SkillId))
+            if (!_SkillRepository.IsExist(SkillId))
             {
                 return NotFound();
             }
-            var SkillToDelete = _SkillRepo.GetById(SkillId);
+            var SkillToDelete = _SkillRepository.GetById(SkillId);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!_SkillRepo.DeleteSkill(SkillToDelete))
+            if (!_SkillRepository.DeleteSkill(SkillToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting reviewer");
             }
 
             return NoContent();
+        }
+
+        [HttpGet("employees/{employeeId}/Skill")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult GetSkillByEmployeeId(int employeeId)
+        {
+            var Skill = _SkillRepository.GetSkillByEmployeeId(employeeId);
+            if (Skill == null)
+                return NotFound();
+
+            return Ok(Skill);
+        }
+
+        [HttpGet("{SkillId}/employees")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult GetEmployeesBySkillId(int SkillId)
+        {
+            var employees = _SkillRepository.GetEmployeesBySkillId(SkillId);
+            if (employees == null)
+                return NotFound();
+
+            return Ok(employees);
+        }
+
+        [HttpPost("employees/{employeeId}/Skill/{SkillId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult AddEmployeeToSkill(int employeeId, int SkillId)
+        {
+            var success = _SkillRepository.AddEmployeeToSkill(employeeId, SkillId);
+            if (!success)
+                return NotFound();
+
+            return Ok();
+        }
+
+        [HttpDelete("employees/{employeeId}/Skill/{SkillId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult RemoveEmployeeFromSkill(int employeeId, int SkillId)
+        {
+            var success = _SkillRepository.RemoveEmployeeFromSkill(employeeId, SkillId);
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
     }
 }

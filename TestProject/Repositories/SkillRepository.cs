@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TestProject.Data;
 using TestProject.Dto;
 using TestProject.Interfaces;
@@ -63,6 +64,65 @@ namespace TestProject.Repositories
         {
             _dataContext.Update(skill);
             return Save();
+        }
+
+        public IEnumerable<Skill> GetSkillsByEmployeeId(int employeeId)
+        {
+            var employee = _dataContext.Employees
+                .Include(e => e.Skills)
+                .FirstOrDefault(e => e.EmployeeId == employeeId);
+
+            if (employee == null)
+                return null; // or return an empty collection
+
+            return employee.Skills;
+        }
+
+        public IEnumerable<Employee> GetEmployeesBySkillId(int skillId)
+        {
+            var project = _dataContext.Skills
+                .Include(p => p.Employees)
+                .FirstOrDefault(p => p.SkillId == skillId);
+
+            if (project == null)
+                return null; // or return an empty collection
+
+            return project.Employees;
+        }
+
+        public bool AddEmployeeToSkill(int employeeId, int skillId)
+        {
+            var employee = _dataContext.Set<Employee>()
+            .Include(e => e.Projects)
+            .FirstOrDefault(e => e.EmployeeId == employeeId);
+
+            var skill = _dataContext.Set<Skill>().Find(skillId);
+
+            if (employee == null || skill == null)
+                return false;
+
+            if (employee.Skills == null)
+                employee.Skills = new List<Skill>();
+
+            employee.Skills.Add(skill);
+            _dataContext.SaveChanges();
+            return true;
+        }
+
+        public bool RemoveEmployeeFromSkill(int employeeId, int skillId)
+        {
+            var employee = _dataContext.Set<Employee>()
+            .Include(e => e.Projects)
+            .FirstOrDefault(e => e.EmployeeId == employeeId);
+
+            var skill = _dataContext.Set<Skill>().Find(skillId);
+
+            if (employee == null || skill == null)
+                return false;
+
+            employee.Skills.Remove(skill);
+            _dataContext.SaveChanges();
+            return true;
         }
     }
 }
