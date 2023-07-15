@@ -14,5 +14,10 @@ namespace TestProject.Interfaces
         bool DeleteSkill(Skill skill);
         bool Save();
         bool IsExist(int id);
+
+        IEnumerable<Employee> GetEmployeesBySkillId(int skillId);
+        IEnumerable<Skill> GetSkillsByEmployeeId(int employeeId);
+        bool AddEmployeeToSkill(int employeeId, int skillId);
+        bool RemoveEmployeeFromSkill(int employeeId, int skillId);
     }
 }
