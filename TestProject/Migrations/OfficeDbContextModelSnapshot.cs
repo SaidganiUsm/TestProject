@@ -48,7 +48,7 @@ namespace TestProject.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("EmployeeSkill");
+                    b.ToTable("EmployeeSkill", (string)null);
                 });
 
             modelBuilder.Entity("TestProject.Models.Department", b =>

@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using TestProject.Dto;
 using TestProject.Interfaces;
 using TestProject.Models;
@@ -14,11 +17,18 @@ namespace TestProject.Controllers
         private readonly IEmployeeRepository _EmployeeRepository;
         private readonly IDepartmentRepository _DepartmentRepository;
         private readonly IMapper _mapper;
+        private readonly JsonSerializerOptions _jsonOptions;
         public EmployeeController(IEmployeeRepository EmployeeRepository, IDepartmentRepository DepartmentRepository, IMapper mapper)
         {
             _EmployeeRepository = EmployeeRepository;
             _DepartmentRepository = DepartmentRepository;
             _mapper = mapper;
+
+            _jsonOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true // Optional: To make the JSON output more readable
+            };
         }
 
         [HttpGet]
@@ -114,6 +124,26 @@ namespace TestProject.Controllers
                 ModelState.AddModelError("", "Something went wrong deleting reviewer");
             }
             return NoContent();
+        }
+
+        [HttpGet]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult GetEmployeeById(int id)
+        {
+            // Get the employee by ID from the repository
+            var employee = _EmployeeRepository.GetEmployeeById(id);
+
+            if (!_EmployeeRepository.IsExist(id))
+                return NotFound();
+
+            // Include projects and skills in the response
+            var projects = employee.Projects;
+            var skills = employee.Skills;
+
+            // Return the employee with the associated projects and skills
+            return Content(JsonSerializer.Serialize(employee, _jsonOptions), "application/json");
         }
     }
 }

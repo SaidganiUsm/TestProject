@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TestProject.Data;
 using TestProject.Dto;
 using TestProject.Interfaces;
@@ -71,6 +72,14 @@ namespace TestProject.Repositories
         {
             _dataContext.Update(employee);
             return Save();
+        }
+        public Employee GetEmployeeById(int id)
+        {
+            return _dataContext.Employees
+                .Include(e => e.Department)
+                .Include(e => e.Projects)
+                .Include(e => e.Skills)
+                .FirstOrDefault(e => e.EmployeeId == id);
         }
     }
 }

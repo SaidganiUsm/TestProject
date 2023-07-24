@@ -114,33 +114,6 @@ namespace TestProject.Controllers
             return NoContent();
         }
 
-
-        [HttpGet("employees/{employeeId}/projects")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult GetProjectsByEmployeeId(int employeeId)
-        {
-            var projects = _ProjectRepository.GetProjectsByEmployeeId(employeeId);
-            if (projects == null)
-                return NotFound();
-
-            return Ok(projects);
-        }
-
-        [HttpGet("{projectId}/employees")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult GetEmployeesByProjectId(int projectId)
-        {
-            var employees = _ProjectRepository.GetEmployeesByProjectId(projectId);
-            if (employees == null)
-                return NotFound();
-
-            return Ok(employees);
-        }
-
         [HttpPost("employees/{employeeId}/projects/{projectId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]

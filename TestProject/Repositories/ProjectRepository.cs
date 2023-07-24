@@ -66,30 +66,6 @@ namespace TestProject.Repositories
             return Save();
         }
 
-        public IEnumerable<Project> GetProjectsByEmployeeId(int employeeId)
-        {
-            var employee = _dataContext.Employees
-                .Include(e => e.Projects)
-                .FirstOrDefault(e => e.EmployeeId == employeeId);
-
-            if (employee == null)
-                return null; // or return an empty collection
-
-            return employee.Projects;
-        }
-
-        public IEnumerable<Employee> GetEmployeesByProjectId(int projectId)
-        {
-            var project = _dataContext.Projects
-                .Include(p => p.Employees)
-                .FirstOrDefault(p => p.ProjectId == projectId);
-
-            if (project == null)
-                return null; // or return an empty collection
-
-            return project.Employees;
-        }
-
         public bool AddEmployeeToProject(int employeeId, int projectId)
         {
             var employee = _dataContext.Set<Employee>()
