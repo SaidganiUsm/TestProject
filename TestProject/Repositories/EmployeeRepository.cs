@@ -73,6 +73,8 @@ namespace TestProject.Repositories
             _dataContext.Update(employee);
             return Save();
         }
+
+        // Takes employee based on Id.
         public Employee GetEmployeeById(int id)
         {
             return _dataContext.Employees
