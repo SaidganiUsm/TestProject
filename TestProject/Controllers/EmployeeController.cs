@@ -24,6 +24,8 @@ namespace TestProject.Controllers
             _DepartmentRepository = DepartmentRepository;
             _mapper = mapper;
 
+
+            // For returning correct formated json file
             _jsonOptions = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.Preserve,
