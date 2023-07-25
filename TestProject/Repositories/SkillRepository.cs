@@ -66,30 +66,6 @@ namespace TestProject.Repositories
             return Save();
         }
 
-        public IEnumerable<Skill> GetSkillsByEmployeeId(int employeeId)
-        {
-            var employee = _dataContext.Employees
-                .Include(e => e.Skills)
-                .FirstOrDefault(e => e.EmployeeId == employeeId);
-
-            if (employee == null)
-                return null; // or return an empty collection
-
-            return employee.Skills;
-        }
-
-        public IEnumerable<Employee> GetEmployeesBySkillId(int skillId)
-        {
-            var project = _dataContext.Skills
-                .Include(p => p.Employees)
-                .FirstOrDefault(p => p.SkillId == skillId);
-
-            if (project == null)
-                return null; // or return an empty collection
-
-            return project.Employees;
-        }
-
         public bool AddEmployeeToSkill(int employeeId, int skillId)
         {
             var employee = _dataContext.Set<Employee>()

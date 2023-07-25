@@ -114,32 +114,6 @@ namespace TestProject.Controllers
             return NoContent();
         }
 
-        [HttpGet("employees/{employeeId}/Skill")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult GetSkillByEmployeeId(int employeeId)
-        {
-            var Skill = _SkillRepository.GetSkillByEmployeeId(employeeId);
-            if (Skill == null)
-                return NotFound();
-
-            return Ok(Skill);
-        }
-
-        [HttpGet("{SkillId}/employees")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult GetEmployeesBySkillId(int SkillId)
-        {
-            var employees = _SkillRepository.GetEmployeesBySkillId(SkillId);
-            if (employees == null)
-                return NotFound();
-
-            return Ok(employees);
-        }
-
         [HttpPost("employees/{employeeId}/Skill/{SkillId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]

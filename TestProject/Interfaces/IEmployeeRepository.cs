@@ -7,6 +7,7 @@ namespace TestProject.Interfaces
     {
         ICollection<Employee> GetAll();
         Employee GetById(int id);
+        Employee GetEmployeeById(int id);
         Employee GetByName(string name);
         Employee GetEmployeeTrimToUpper(EmployeeDto employeeCreate);
         bool CreateEmployee(int DepartmentId, Employee employee);

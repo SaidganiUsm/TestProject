@@ -14,9 +14,6 @@ namespace TestProject.Interfaces
         bool DeleteProject(Project project);
         bool Save();
         bool IsExist(int id);
-
-        IEnumerable<Employee> GetEmployeesByProjectId(int projectId);
-        IEnumerable<Project> GetProjectsByEmployeeId(int employeeId);
         bool AddEmployeeToProject(int employeeId, int projectId);
         bool RemoveEmployeeFromProject(int employeeId, int projectId);
     }
