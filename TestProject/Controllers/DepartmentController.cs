@@ -33,6 +33,8 @@ namespace TestProject.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
         public IActionResult CreateDepartment([FromQuery] int DepartmentId, [FromBody] DepartmentDto DepartmentCreate)
         {
             if (DepartmentCreate == null)
@@ -64,6 +66,7 @@ namespace TestProject.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public IActionResult UpdateDepartment(int DepartmentId,
             [FromBody] DepartmentDto updateDepartment)
         {
